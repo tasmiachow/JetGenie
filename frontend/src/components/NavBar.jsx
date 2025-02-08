@@ -39,7 +39,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <Link to="/saved-trips" className="nav-button">Saved Trips</Link>
-            <Link to="/plan-trip" className="nav-button">Plan a Trip</Link>
+            <Link to="/quiz" className="nav-button">Plan a Trip</Link>
             <button className="nav-button logout" onClick={handleLogout}>
               Log Out
             </button>
