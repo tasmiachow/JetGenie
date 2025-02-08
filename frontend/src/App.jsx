@@ -1,27 +1,25 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import QuizPage from "./Components/QuizPage.jsx";
+import Navbar from "./components/NavBar.jsx";
+import LandingPage from "./components/LandingPage.jsx";
+import Login from "./components/Login.jsx";
 
-function App() {
-  const [message, setMessage] = useState("");
-  useEffect(() => {
-    fetch("http://127.0.0.1:5000/") // Flask backend URL
-      .then((response) => response.json())
-      .then((data) => setMessage(data.message))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
 
+const App = () => {
   return (
-    <div className="App">
-      <h1>Vacation Planner</h1>
-      <p>Backend Response: {message}</p>
-      <Router>
-        <Routes>
-          <Route path="/" element={<QuizPage />} />
-        </Routes>
-      </Router>
-    </div>
-  );
-}
+    <Router>
+      <Navbar /> {/*  Navbar appears on every page */}
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<Login />} />
+          <Route path="QuizPage" element={<QuizPage />} />
+        {/* <Route path="/plan-trip" element={<PlanTrip />} />
+        <Route path="/saved-trips" element={<SavedTrips />} /> */}
+      </Routes>
+    </Router>
 
-export default App
+  );
+};
+
+export default App;
