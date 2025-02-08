@@ -1,0 +1,24 @@
+.env
+node_modules/             # Dependencies for React (large files)
+dist/                     # Build folder for Vite
+.env                      # Environment variables (API keys, Firebase secrets)
+*.log                      # Log files
+.vscode/                   # VS Code settings
+.idea/                     # JetBrains IDE settings
+
+# 🐍 Python (Flask Backend)
+venv                      
+__pycache__/               # Compiled Python files
+*.pyc                      # Python cache files
+*.pyo                      # Python cache files
+
+# 🔥 Firebase
+config/firebase_service_account.json  # Firebase credentials
+
+# 🔧 OS-Specific
+.DS_Store                   # macOS system files
+Thumbs.db                   # Windows system files
+
+# 🔥 React/Vite Specific
+.vite/                      # Vite cache
+.vitepress/                 # VitePress cache
