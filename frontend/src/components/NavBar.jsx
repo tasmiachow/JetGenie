@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import "../styles/Navbar.css";
-import LogoImg from "../assets/JetGenieLogo.png"; 
+import LogoImg from "../assets/JetGenieLogo.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -30,7 +30,7 @@ const Navbar = () => {
       {/* Left Side - Logo */}
       <div className="nav-left">
         <Link to="/">
-            <img src={LogoImg} alt="Logo" className="nav-logo" />
+          <img src={LogoImg} alt="Logo" className="nav-logo" />
         </Link>
       </div>
 
@@ -46,7 +46,7 @@ const Navbar = () => {
           </>
         ) : (
           <>
-            <Link to="/signup" className="nav-button">Sign Up</Link>
+            <Link to="/login" className="nav-button">Sign Up</Link>
             <Link to="/login" className="nav-button">Log In</Link>
           </>
         )}
