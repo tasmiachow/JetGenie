@@ -1,12 +1,21 @@
-from flask import Flask, jsonify
-from flask_cors import CORS
+import modal
 
-app = Flask(__name__)
-CORS(app)  
+app = modal.App("backend")
+image = modal.Image.debian_slim().pip_install("flask")
 
-@app.route("/")
-def home():
-    return jsonify({"message": "Flask backend is running!"})
+@app.function(image=image)
+@modal.wsgi_app()
+def flask_app():
+    from flask import Flask, request
 
-if __name__ == "__main__":
-    app.run(debug=True)
+    web_app = Flask(__name__)
+
+    @web_app.get("/")
+    def home():
+        return "Hello Flask World!"
+
+    @web_app.post("/echo")
+    def echo():
+        return request.json
+
+    return web_app
