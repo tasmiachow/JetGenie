@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import QuizPage from "./Components/QuizPage.jsx";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -10,9 +12,14 @@ function App() {
   }, []);
 
   return (
-      <div className="App">
+    <div className="App">
       <h1>Vacation Planner</h1>
       <p>Backend Response: {message}</p>
+      <Router>
+        <Routes>
+          <Route path="/" element={<QuizPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
