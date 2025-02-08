@@ -73,7 +73,7 @@ const Question = ({ data, answer, onAnswer }) => {
             <h2>{data.text}</h2>
             {data.type === "multi-select" ? (
                 <MultiSelectQuestion
-                    question={data}
+                    question={{ ...data, text: "" }}
                     selectedOptions={answer || []}
                     onSelect={onAnswer}
                 />
