@@ -11,6 +11,11 @@ import tokyoImage from "../assets/images/tokyo.jpeg";
 import barcelonaImage from "../assets/images/barcelona.jpg";
 import dubaiImage from "../assets/images/dubai.jpg";
 import sydneyImage from "../assets/images/sydney.jpeg";
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
 
 const popularDestinations = [
     { name: "New York City", country: "United States", image: nycImage },
@@ -20,7 +25,6 @@ const popularDestinations = [
     { name: "Dubai", country: "UAE", image: dubaiImage },
     { name: "Sydney", country: "Australia", image: sydneyImage }
 ];
-
 
 const Question = ({ data, answer, onAnswer }) => {
     const [input, setInput] = useState(answer || "");
@@ -75,76 +79,120 @@ const Question = ({ data, answer, onAnswer }) => {
         }
     };
 
+    const renderQuestionContent = () => {
+        switch (data.type) {
+            case "multi-select":
+                return (
+                    <div className="multi-select-container">
+                        {data.options.map((option, idx) => (
+                            <button
+                                key={option}
+                                className={`option-bubble ${(answer || []).includes(option) ? "selected" : ""}`}
+                                onClick={() => {
+                                    const newSelection = answer ? [...answer] : [];
+                                    const optionIndex = newSelection.indexOf(option);
+                                    if (optionIndex === -1) {
+                                        newSelection.push(option);
+                                    } else {
+                                        newSelection.splice(optionIndex, 1);
+                                    }
+                                    onAnswer(newSelection);
+                                }}
+                            >
+                                {data?.icons && data?.icons[idx] && 
+                                    <div className="icon"><FontAwesomeIcon size="4x" icon={data.icons[idx]}/></div>
+                                }
+                                {data?.images && data?.images[idx] && 
+                                    <div>
+                                        <img className="multi-select-image" src={new URL(`../assets/images/${data.images[idx]}`, import.meta.url).href} alt={option}/>
+                                    </div>
+                                }
+                                <div>{option}</div>
+                            </button>
+                        ))}
+                    </div>
+                );
+
+            case "single-select":
+                return (
+                    <div className="single-select-container">
+                        {data.options.map((option, idx) => (
+                            <button
+                                key={option}
+                                className={`option-bubble ${input === option ? "selected" : ""}`}
+                                onClick={() => {
+                                    setInput(option);
+                                    onAnswer(option);
+                                }}
+                            >
+                                {data?.icons && data?.icons[idx] && 
+                                    <div className="icon"><FontAwesomeIcon size="4x" icon={data.icons[idx]}/></div>
+                                }
+                                {option}
+                            </button>
+                        ))}
+                    </div>
+                );
+
+            case "date-range":
+                return (
+                    <div className="date-picker-container">
+                        <DateRange
+                            editableDateInputs={true}
+                            onChange={(ranges) => {
+                                setDateRange([ranges.selection]);
+                                onAnswer(ranges.selection);
+                            }}
+                            moveRangeOnFirstSelection={false}
+                            ranges={dateRange}
+                            minDate={new Date()}
+                            maxDate={new Date(new Date().setDate(new Date().getDate() + 365))}
+                            rangeColors={["#5C95FF"]}
+                            showDateDisplay={false}
+                        />
+                        <p
+                            className="no-dates-option"
+                            onClick={() => {
+                                setNoDates(!noDates);
+                                onAnswer(noDates ? dateRange[0] : "I don't know my dates yet");
+                            }}
+                        >
+                            I don't know my dates yet
+                        </p>
+                    </div>
+                );
+
+            case "usd-number":
+                return (
+                    <div className="usd-input">
+                        <span>$</span>
+                        <input
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={input}
+                            onChange={(e) => {
+                                setInput(e.target.value);
+                                onAnswer(e.target.value);
+                            }}
+                            placeholder="Enter budget in USD"
+                        />
+                    </div>
+                );
+
+            default:
+                return null;
+        }
+    };
+
     return (
         <div className="question-container">
             <h2>{data.text}</h2>
-            {data.type === "multi-select" ? (
-                <MultiSelectQuestion
-                    question={{ ...data, text: "" }}
-                    selectedOptions={answer || []}
-                    onSelect={onAnswer}
-                />
-            ) : null}
-            {data.type === "single-select" ? (
-                <div className="single-select-container">
-                    {data.options.map((option) => (
-                        <button
-                            key={option}
-                            className={`answer-bubble ${input === option ? "selected" : ""}`}
-                            onClick={() => {
-                                setInput(option);
-                                onAnswer(option);
-                            }}
-                        >
-                            {option}
-                        </button>
-                    ))}
-                </div>
-            ) : null}
-            {data.type === "date-range" ? (
-                <div className="date-picker-container">
-                    <DateRange
-                        editableDateInputs={true}
-                        onChange={(ranges) => {
-                            setDateRange([ranges.selection]);
-                            onAnswer(ranges.selection);
-                        }}
-                        moveRangeOnFirstSelection={false}
-                        ranges={dateRange}
-                        minDate={new Date()}
-                        maxDate={new Date(new Date().setDate(new Date().getDate() + 365))}
-                        rangeColors={["#5C95FF"]}
-                        showDateDisplay={false}
-                    />
-                    <p
-                        className="no-dates-option"
-                        onClick={() => {
-                            setNoDates(!noDates);
-                            onAnswer(noDates ? dateRange[0] : "I don’t know my dates yet");
-                        }}
-                    >
-                        I don’t know my dates yet
-                    </p>
-                </div>
-            ) : null}
-            {data.type === "usd-number" ? (
-                <div className="usd-input">
-                    <span>$</span>
-                    <input
-                        type="number"
-                        min="1"
-                        step="1"
-                        value={input}
-                        onChange={(e) => {
-                            setInput(e.target.value);
-                            onAnswer(e.target.value);
-                        }}
-                        placeholder="Enter budget in USD"
-                    />
-                </div>
-            ) : null}
+            {data.description && <p className="subtext">{data.description}</p>}
+            
+            {renderQuestionContent()}
 
-            {data.id === 1 ? (
+            {data.id === 1 && (
                 <div>
                     <Select
                         options={options}
@@ -179,7 +227,7 @@ const Question = ({ data, answer, onAnswer }) => {
                         </div>
                     </div>
                 </div>
-            ) : null}
+            )}
         </div>
     );
 };

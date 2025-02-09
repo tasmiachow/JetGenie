@@ -81,11 +81,12 @@ const Login = () => {
   };
 
   return (
-    <div className={`container ${isRightPanelActive ? 'right-panel-active' : ''}`}>
+    <div className={`login-container ${isRightPanelActive ? 'right-panel-active' : ''}`}>
       <div className="form-container sign-up-container">
-        <form onSubmit={handleSignUp}>
-          <h1>Create Account</h1>
+        <form className='login-form' onSubmit={handleSignUp}>
+          <h1 className='login-h1'>Create Account</h1>
           <input
+            className='login-input'
             type="text"
             placeholder="Name"
             value={name}
@@ -93,6 +94,7 @@ const Login = () => {
             required
           />
           <input
+            className='login-input'
             type="email"
             placeholder="Email"
             value={email}
@@ -100,6 +102,7 @@ const Login = () => {
             required
           />
           <input
+            className='login-input'
             type="password"
             placeholder="Password"
             value={password}
@@ -107,20 +110,22 @@ const Login = () => {
             required
           />
           <input
+            className='login-input'
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button type="submit">Sign Up</button>
+          {error && <p className='login-p' style={{ color: 'red' }}>{error}</p>}
+          <button className='login-button' type="submit">Sign Up</button>
         </form>
       </div>
       <div className="form-container sign-in-container">
-        <form onSubmit={handleSignIn}>
-          <h1>Sign In</h1>
+        <form className='login-form' onSubmit={handleSignIn}>
+          <h1 className='login-h1'>Sign In</h1>
           <input
+            className='login-input'
             type="email"
             placeholder="Email"
             value={email}
@@ -128,29 +133,30 @@ const Login = () => {
             required
           />
           <input
+            className='login-input'
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button type="submit">Sign In</button>
+          {error && <p className='login-p' style={{ color: 'red' }}>{error}</p>}
+          <button className='login-button' type="submit">Sign In</button>
         </form>
       </div>
       <div className="overlay-container">
         <div className="overlay">
           <div className="overlay-panel overlay-left">
-            <h1>Welcome Back!</h1>
-            <p>Please login to access your account.</p>
-            <button className="ghost" onClick={handleSignInClick}>
+            <h1 className='login-h1'>Welcome Back!</h1>
+            <p className='login-p'>Please login to access your account.</p>
+            <button className="ghost login-button" onClick={handleSignInClick}>
               Sign In
             </button>
           </div>
           <div className="overlay-panel overlay-right">
-            <h1>Join Us!</h1>
-            <p>Enter your details and start your journey!</p>
-            <button className="ghost" onClick={handleSignUpClick}>
+            <h1 className='login-h1'>Join Us!</h1>
+            <p className='login-p'>Enter your details and start your journey!</p>
+            <button className="ghost login-button" onClick={handleSignUpClick}>
               Sign Up
             </button>
           </div>

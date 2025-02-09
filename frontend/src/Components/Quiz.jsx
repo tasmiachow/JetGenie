@@ -16,6 +16,7 @@ const questions = [
         id: 3,
         text: "Who’s going on this trip?",
         type: "single-select",
+        icons: ['fa-person', 'fa-people-arrows','fa-people-pulling','fa-people-roof'],
         options: ["Solo Trip", "Partner Trip", "Friends Trip", "Family Trip"]
     },
     { id: 4, text: "What’s your budget? (per person)", type: "usd-number" },

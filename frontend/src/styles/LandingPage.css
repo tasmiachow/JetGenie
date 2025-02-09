@@ -6,7 +6,9 @@
     align-items: center;
     justify-content: space-between;
     padding: 2rem;
-    background: #f9f9f9;
+    /*background: #f9f9f9;*/
+    background: rgb(255,169,163);
+    background: linear-gradient(28deg, rgba(255,169,163,1) 1%, rgba(255,255,255,1) 100%);
   }
   
   /* Left Section - Text & Buttons */
@@ -43,28 +45,28 @@
     font-weight: bold;
     transition: all 0.3s ease-in-out;
     text-align: center;
+    
   }
   
   .primary-btn {
-    background: #007bff;
-    color: white;
-    border: 2px solid #007bff;
+    color: #383D3B;
+    border:2px solid #383D3B;   
   }
   
   .primary-btn:hover {
-    background: white;
-    color: #007bff;
+    background-color: #F5CB5C;
+    color: #383D3B;
   }
   
   .secondary-btn {
     background: transparent;
-    color: #007bff;
-    border: 2px solid #007bff;
+    color: #383D3B;
+    border:2px solid #383D3B;
   }
   
   .secondary-btn:hover {
-    background: #007bff;
-    color: white;
+    background-color: #F5CB5C;
+    color: #383D3B;
   }
   
   /* Right Section - Image */
@@ -105,4 +107,6 @@
       width: 80%;
     }
   }
+
+
   
