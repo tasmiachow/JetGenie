@@ -17,6 +17,8 @@ AI Travel Agent
 
 
 # CD Backend 
+# npm install node-fetch
+
 # create virtual env ONCE COMMAND: python -m venv venv
 # venv\Scripts\activate
 # IF USING MAC

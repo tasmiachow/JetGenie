@@ -46,21 +46,23 @@ const Question = ({ data, answer, onAnswer }) => {
 
     const fetchCities = async (searchText) => {
         if (searchText.length < 2) return;
+
         try {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchText)}&addressdetails=1&limit=5`
-            );
+            // Call the Node.js backend instead of Amadeus directly
+            const response = await fetch(`http://localhost:5001/api/cities?city=${encodeURIComponent(searchText)}`);
             const data = await response.json();
-            const cityOptions = data.map((place) => ({
-                label: place.display_name,
-                value: place.display_name,
-            }));
-            setOptions(cityOptions);
+
+            if (data.length > 0) {
+                const cityOptions = data.map((place) => ({
+                    label: `${place.name} (${place.iataCode})`,
+                    value: place.iataCode, // Store IATA code instead of full city name
+                }));
+                setOptions(cityOptions);
+            }
         } catch (error) {
             console.error("Error fetching cities:", error);
         }
     };
-
     const handleInputChange = (newValue) => {
         if (newValue) {
             setSelectedDestination(null);
