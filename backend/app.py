@@ -1,7 +1,7 @@
 import modal
 
 app = modal.App("backend")
-image = modal.Image.debian_slim().pip_install("flask")
+image = modal.Image.debian_slim().pip_install("flask", "flask-cors")
 image = image.pip_install("amadeus")
 
 @app.function(image=image, secrets=[modal.Secret.from_name("secret-keys")])
@@ -10,7 +10,8 @@ def flask_app():
     import os
     from flask import Flask, request, jsonify
     from amadeus import Client, ResponseError
-    import json
+    from flask_cors import CORS
+    
 
     amadeus = Client(
         client_id=os.environ["AMADEUS_CLIENT_ID"],
@@ -18,6 +19,7 @@ def flask_app():
     )
 
     web_app = Flask(__name__)
+    CORS(web_app)
 
     @web_app.get("/")
     def home():

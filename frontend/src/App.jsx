@@ -4,22 +4,30 @@ import QuizPage from "./Components/QuizPage.jsx";
 import Navbar from "./components/NavBar.jsx";
 import LandingPage from "./components/LandingPage.jsx";
 import Login from "./components/Login.jsx";
+import HotelMap from "./components/HotelMap/HotelMap.jsx";
+import HotelForm from "./components/HotelMap/HotelForm/HotelForm.jsx";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import "./App.css";
 
+const queryClient = new QueryClient();
 
 const App = () => {
-  return (
-    <Router>
-      <Navbar /> {/*  Navbar appears on every page */}
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/quiz" element={<QuizPage />} />
-        {/* <Route path="/plan-trip" element={<PlanTrip />} />
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Router>
+                <Navbar /> {/*  Navbar appears on every page */}
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/quiz" element={<QuizPage />} />
+                    {/* <Route path="/plan-trip" element={<PlanTrip />} />
         <Route path="/saved-trips" element={<SavedTrips />} /> */}
-      </Routes>
-    </Router>
-
-  );
+                    <Route path="/hotels" element={<HotelForm />} />
+                    <Route path="/hotels/search" element={<HotelMap />} />
+                </Routes>
+            </Router>
+        </QueryClientProvider>
+    );
 };
 
 export default App;
