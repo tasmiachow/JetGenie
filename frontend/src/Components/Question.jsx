@@ -5,15 +5,22 @@ import { DateRange } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 
-// need to add images of the destinations
+import nycImage from "../assets/images/nyc.jpg";
+import parisImage from "../assets/images/paris.jpg";
+import tokyoImage from "../assets/images/tokyo.jpeg";
+import barcelonaImage from "../assets/images/barcelona.jpg";
+import dubaiImage from "../assets/images/dubai.jpg";
+import sydneyImage from "../assets/images/sydney.jpeg";
+
 const popularDestinations = [
-    { name: "New York City", country: "United States", image: "" },
-    { name: "Paris", country: "France", image: "" },
-    { name: "Tokyo", country: "Japan", image: "" },
-    { name: "Barcelona", country: "Spain", image: "" },
-    { name: "Dubai", country: "UAE", image: "" },
-    { name: "Sydney", country: "Australia", image: "" }
+    { name: "New York City", country: "United States", image: nycImage },
+    { name: "Paris", country: "France", image: parisImage },
+    { name: "Tokyo", country: "Japan", image: tokyoImage },
+    { name: "Barcelona", country: "Spain", image: barcelonaImage },
+    { name: "Dubai", country: "UAE", image: dubaiImage },
+    { name: "Sydney", country: "Australia", image: sydneyImage }
 ];
+
 
 const Question = ({ data, answer, onAnswer }) => {
     const [input, setInput] = useState(answer || "");
