@@ -9,6 +9,11 @@ AI Travel Agent
 # npm install react-select
 # npm install react-icons
 # npm install react-date-range
+# npm install @react-google-maps/api
+# npm install @hello-pangea/dnd --legacy-peer-deps
+# npm install date-fns --legacy-peer-deps
+
+
 # npm run dev 
 
 [color pallete](https://coolors.co/palette/383d3b-f5cb5c-ffa9a3-b9e6ff-5c95ff)

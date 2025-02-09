@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^17.0.0",
+    "@react-google-maps/api": "^2.20.5",
+    "date-fns": "^4.1.0",
     "firebase": "^11.3.0",
+    "gapi-script": "^1.2.0",
     "react": "^19.0.0",
     "react-date-range": "^2.0.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.5",
