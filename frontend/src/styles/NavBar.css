@@ -1,62 +1,69 @@
 /* Navbar - Full Width Without Overflow */
 .navbar {
-    position: sticky;
-    top: 0;
-    width: 100%; /* Ensures no overflow */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background: white;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    overflow: hidden; /* Ensures navbar content does not cause scrolling */
-  }
-  
-  /* Left Side - Logo */
-  .nav-left {
-    display: flex;
-    align-items: center;
-  }
-  
-  .nav-logo {
-    height: 40px;
-    object-fit: contain;
-  }
-  
-  /* Right Side - Buttons */
-  .nav-right {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  /* Buttons */
-  .nav-button {
-    text-decoration: none;
-    background: transparent;
-    border: 2px solid #333;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    color: #333;
-    white-space: nowrap; /* Prevents wrapping issues */
-  }
-  
-  .nav-button:hover {
-    background: #333;
-    color: white;
-  }
-  
-  /* Logout Button */
-  .nav-button.logout {
-    border: 2px solid red;
-    color: red;
-  }
-  
-  .nav-button.logout:hover {
-    background: red;
-    color: white;
-  }
-  
+  position: sticky;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Left Side - Logo */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo {
+  height: 40px;
+  object-fit: contain;
+  cursor: pointer; /* Add pointer cursor for better UX */
+}
+
+/* Right Side - Buttons */
+.nav-right {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
+}
+
+/* Buttons */
+.nav-button {
+  text-decoration: none;
+  background: transparent;
+  border: 2px solid #333;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  color: #333;
+  white-space: nowrap; /* Prevents wrapping issues */
+}
+
+.nav-button:hover {
+  background: #333;
+  color: white;
+}
+
+/* Logout Button */
+.nav-button.logout {
+  border: 2px solid red;
+  color: red;
+}
+
+.nav-button.logout:hover {
+  background: red;
+  color: white;
+}
+
+/* Content Wrapper to Avoid Navbar Overlap */
+.content {
+  margin-top: 80px; /* Matches navbar height + spacing */
+  padding: 20px;
+}
