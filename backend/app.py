@@ -9,11 +9,13 @@ image = image.pip_install("groq")
 @modal.wsgi_app()
 def flask_app():
     import os
+    # import requests
     from flask import Flask, request, jsonify
     from amadeus import Client, ResponseError
     from flask_cors import CORS
     import groq
     import json
+    import time
     
 
     amadeus = Client(
@@ -26,7 +28,7 @@ def flask_app():
     CORS(web_app)
     
     refresh_limits = {}
-    MAX_REFRESHES = 2  # Only 2 refreshes per time slot
+    MAX_REFRESHES = 2 
 
     def generate_itinerary(user_data):
         """Generates a structured travel itinerary using Groq based on user inputs."""
@@ -96,6 +98,20 @@ def flask_app():
     @web_app.post("/echo")
     def echo():
         return request.json
+    
+    
+    @web_app.get("/api/cities")
+    def cities():
+        city = request.args.get("city")
+        if not city:
+            return jsonify({"error": "City name is required"}), 400
+        
+        try:
+            city_data = amadeus.reference_data.locations.get(keyword=city, subType="CITY")
+            return city_data.data
+        except ResponseError as error:
+            print(error)
+            return jsonify({'error': 'Error finding city IATA', 'details': str(error)}), 500
     
     @web_app.get("/api/hotels/search")
     def search_hotels():
