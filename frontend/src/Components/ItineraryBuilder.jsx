@@ -25,7 +25,24 @@ const ItineraryBuilder = () => {
         });
     }, []);
 
-    const addToGoogleCalendar = (event) => {
+    const authenticateAndAddEvent = async (event) => {
+        if (!window.gapi || !window.gapi.auth2) {
+            console.error("Google API client is not initialized.");
+            alert("Google API client is not loaded. Please refresh the page.");
+            return;
+        }
+
+        const authInstance = window.gapi.auth2.getAuthInstance();
+        if (!authInstance.isSignedIn.get()) {
+            try {
+                await authInstance.signIn();
+            } catch (error) {
+                console.error("Google Sign-In failed:", error);
+                alert("Failed to sign in to Google.");
+                return;
+            }
+        }
+
         const eventDetails = {
             summary: event.name,
             description: event.description,
@@ -39,14 +56,17 @@ const ItineraryBuilder = () => {
             },
         };
 
-        window.gapi.client.calendar.events.insert({
-            calendarId: "primary",
-            resource: eventDetails,
-        }).then((response) => {
+        try {
+            const response = await window.gapi.client.calendar.events.insert({
+                calendarId: "primary",
+                resource: eventDetails,
+            });
+            console.log("Event added successfully:", response);
             alert("Event added to Google Calendar!");
-        }).catch((error) => {
+        } catch (error) {
             console.error("Error adding event:", error);
-        });
+            alert("Failed to add event to Google Calendar. Please check your permissions.");
+        }
     };
 
     if (!Object.keys(itinerary).length) {
@@ -73,7 +93,7 @@ const ItineraryBuilder = () => {
                                     {activities[timeOfDay]?.Activity && (
                                         <button
                                             className={styles.addButton}
-                                            onClick={() => addToGoogleCalendar({
+                                            onClick={() => authenticateAndAddEvent({
                                                 name: activities[timeOfDay]?.Activity,
                                                 description: "Planned activity",
                                                 startTime: "2025-02-10T09:00:00-05:00",
