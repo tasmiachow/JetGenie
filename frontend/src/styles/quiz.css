@@ -1,18 +1,14 @@
 /* ================== GENERAL STYLING ================== */
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #F8F9FA;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
+    display: block;
+    /* Reset from flex */
 }
+
 
 /* ================== QUIZ LAYOUT ================== */
 .quiz-container {
     width: 100%;
+    margin: auto;
     max-width: 650px;
     min-height: 450px;
     background: white;
@@ -24,6 +20,9 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* ================== PROGRESS BAR ================== */

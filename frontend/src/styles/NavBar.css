@@ -2,7 +2,11 @@
 .navbar {
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  width: 100vw;
+  /* Ensures full width */
+  height: 60px;
+  /* Adjust if needed */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,15 +14,22 @@
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  transition: transform 0.3s ease-in-out; /* Smooth hiding effect */
+  box-sizing: border-box;
+  /* Prevents unexpected padding overflow */
 }
+
+
+
 .navbar.hide {
-  transform: translateY(-100%); /* Moves navbar out of view */
+  transform: translateY(-100%);
+  /* Moves navbar out of view */
 }
 
 .navbar.show {
-  transform: translateY(0); /* Navbar reappears */
+  transform: translateY(0);
+  /* Navbar reappears */
 }
+
 /* Left Side - Logo */
 .nav-left {
   display: flex;
@@ -28,14 +39,16 @@
 .nav-logo {
   height: 40px;
   object-fit: contain;
-  cursor: pointer; /* Add pointer cursor for better UX */
+  cursor: pointer;
+  /* Add pointer cursor for better UX */
 }
 
 /* Right Side - Buttons */
 .nav-right {
   display: flex;
   gap: 1rem;
-  flex-wrap: wrap; /* Ensures buttons wrap on smaller screens */
+  flex-wrap: wrap;
+  /* Ensures buttons wrap on smaller screens */
 }
 
 /* Buttons */
@@ -49,7 +62,8 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   color: #333;
-  white-space: nowrap; /* Prevents wrapping issues */
+  white-space: nowrap;
+  /* Prevents wrapping issues */
 }
 
 .nav-button:hover {
@@ -70,6 +84,7 @@
 
 /* Content Wrapper to Avoid Navbar Overlap */
 .content {
-  margin-top: 80px; /* Matches navbar height + spacing */
+  margin-top: 80px;
+  /* Matches navbar height + spacing */
   padding: 20px;
 }

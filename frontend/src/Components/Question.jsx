@@ -49,7 +49,7 @@ const Question = ({ data, answer, onAnswer }) => {
 
         try {
             // Call the Node.js backend instead of Amadeus directly
-            const response = await fetch(`http://localhost:5001/api/cities?city=${encodeURIComponent(searchText)}`);
+            const response = await fetch(`https://jet-genie--backend-flask-app.modal.run/api/cities?city=${encodeURIComponent(searchText)}`);
             const data = await response.json();
 
             if (data.length > 0) {
