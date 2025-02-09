@@ -96,6 +96,7 @@ const Login = () => {
   };
 
   return (
+    <div className ="login-page">
     <div className={`container ${isRightPanelActive ? 'right-panel-active' : ''}`}>
       <div className="form-container sign-up-container">
         <form onSubmit={handleSignUp}>
@@ -171,6 +172,7 @@ const Login = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 };
