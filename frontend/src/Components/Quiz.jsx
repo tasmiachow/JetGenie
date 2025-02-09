@@ -40,14 +40,36 @@ const Quiz = () => {
         setAnswers((prev) => ({ ...prev, [questionId]: answer }));
     };
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (currentQuestion < questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         } else {
-            navigate("/itinerary-builder", { state: answers });
+            console.log("✅ Final Answers Before Sending:", answers); // Debugging
+    
+            try {
+                const response = await fetch("http://127.0.0.1:5000/generate-itinerary", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(answers)
+                });
+    
+                if (!response.ok) {
+                    throw new Error("Failed to send data to the backend");
+                }
+    
+                const itineraryData = await response.json();
+                console.log("✅ Received Itinerary from Flask:", itineraryData); // Debugging
+    
+                // Navigate to ItineraryBuilder with the itinerary data
+                navigate("/itinerary-builder", { state: { itinerary: itineraryData.itinerary } });
+    
+            } catch (error) {
+                console.error("❌ Error sending data to backend:", error);
+            }
         }
     };
-
     const handleBack = () => {
         if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
     };
