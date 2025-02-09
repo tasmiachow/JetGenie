@@ -1,11 +1,53 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "../styles/ItineraryBuilder.module.css"; // Import CSS Module
+import { loadGapiInsideDOM } from "gapi-script";
+
+const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+const API_KEY = import.meta.env.VITE_API_KEY;
+const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
 const ItineraryBuilder = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const itinerary = location.state?.itinerary || {};
+
+    useEffect(() => {
+        loadGapiInsideDOM().then(() => {
+            window.gapi.load("client:auth2", async () => {
+                await window.gapi.client.init({
+                    apiKey: API_KEY,
+                    clientId: CLIENT_ID,
+                    discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+                    scope: SCOPES,
+                });
+            });
+        });
+    }, []);
+
+    const addToGoogleCalendar = (event) => {
+        const eventDetails = {
+            summary: event.name,
+            description: event.description,
+            start: {
+                dateTime: event.startTime,
+                timeZone: "America/New_York",
+            },
+            end: {
+                dateTime: event.endTime,
+                timeZone: "America/New_York",
+            },
+        };
+
+        window.gapi.client.calendar.events.insert({
+            calendarId: "primary",
+            resource: eventDetails,
+        }).then((response) => {
+            alert("Event added to Google Calendar!");
+        }).catch((error) => {
+            console.error("Error adding event:", error);
+        });
+    };
 
     if (!Object.keys(itinerary).length) {
         return (
@@ -19,28 +61,43 @@ const ItineraryBuilder = () => {
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>Your Personalized Travel Itinerary ✈️</h1>
-            <div className={styles.cards}>
-                {Object.entries(itinerary).map(([day, activities], index) => (
-                    <div key={index} className={styles.card}>
-                        <h2 className={styles.cardTitle}>{day}</h2>
-                        <div className={styles.activity}>
-                            <h3 className={styles.activityTitle}>🌅 Morning</h3>
-                            <p className={styles.activityText}>{activities.Morning?.Activity || "No activity planned."}</p>
+            <div className={styles.itineraryContainer}>
+                <div className={styles.cards}>
+                    {Object.entries(itinerary).map(([day, activities], index) => (
+                        <div key={index} className={styles.card}>
+                            <h2 className={styles.cardTitle}>{day}</h2>
+                            {['Morning', 'Afternoon', 'Night'].map((timeOfDay) => (
+                                <div key={timeOfDay} className={styles.activity}>
+                                    <h3 className={styles.activityTitle}>{timeOfDay}</h3>
+                                    <p className={styles.activityText}>{activities[timeOfDay]?.Activity || "No activity planned."}</p>
+                                    {activities[timeOfDay]?.Activity && (
+                                        <button
+                                            className={styles.addButton}
+                                            onClick={() => addToGoogleCalendar({
+                                                name: activities[timeOfDay]?.Activity,
+                                                description: "Planned activity",
+                                                startTime: "2025-02-10T09:00:00-05:00",
+                                                endTime: "2025-02-10T10:00:00-05:00"
+                                            })}
+                                        >
+                                            Add to Google Calendar
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
                         </div>
-                        <div className={styles.activity}>
-                            <h3 className={styles.activityTitle}>🌞 Afternoon</h3>
-                            <p className={styles.activityText}>{activities.Afternoon?.Activity || "No activity planned."}</p>
-                        </div>
-                        <div className={styles.activity}>
-                            <h3 className={styles.activityTitle}>🌙 Night</h3>
-                            <p className={styles.activityText}>{activities.Night?.Activity || "No activity planned."}</p>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
+                <div className={styles.calendarContainer}>
+                    <iframe
+                        src="https://calendar.google.com/calendar/embed?src=YOUR_GOOGLE_CALENDAR_ID"
+                        style={{ border: 0, width: "100%", height: "600px" }}
+                        frameBorder="0"
+                        scrolling="no"
+                    ></iframe>
+                </div>
             </div>
-            <button className={styles.backButton} onClick={() => navigate("/quiz")}>
-                🔙 Back to Quiz
-            </button>
+            <button className={styles.backButton} onClick={() => navigate("/quiz")}>🔙 Back to Quiz</button>
         </div>
     );
 };

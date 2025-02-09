@@ -3,6 +3,21 @@ import { auth, db } from '../firebase';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import '../styles/Login.css'; // Ensure this is correct
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+const handleGoogleLogin = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log("User signed in with Google:", result.user);
+  } catch (error) {
+    console.error("Google sign-in error:", error);
+  }
+};
+
+// Add this inside the login form
+<button onClick={handleGoogleLogin}>Sign in with Google</button>;
+
 
 const Login = () => {
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
