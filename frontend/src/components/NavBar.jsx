@@ -8,12 +8,21 @@ import LogoImg from "../assets/JetGenieLogo.png";
 const Navbar = () => {
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  let lastScrollY = window.scrollY;
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(!!user);
-    });
-    return () => unsubscribe();
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY) {
+        setIsVisible(false); // Hide navbar when scrolling down
+      } else {
+        setIsVisible(true); // Show navbar when scrolling up
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const handleLogout = async () => {
@@ -26,15 +35,12 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      {/* Left Side - Logo */}
+    <nav className={`navbar ${isVisible ? "show" : "hide"}`}>
       <div className="nav-left">
         <Link to="/">
           <img src={LogoImg} alt="Logo" className="nav-logo" />
         </Link>
       </div>
-
-      {/* Right Side - Authentication and Navigation Links */}
       <div className="nav-right">
         {isLoggedIn ? (
           <>

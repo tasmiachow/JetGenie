@@ -1,6 +1,6 @@
 /* Navbar - Full Width Without Overflow */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
   width: 100%;
   display: flex;
@@ -10,9 +10,15 @@
   background: white;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  overflow: hidden;
+  transition: transform 0.3s ease-in-out; /* Smooth hiding effect */
+}
+.navbar.hide {
+  transform: translateY(-100%); /* Moves navbar out of view */
 }
 
+.navbar.show {
+  transform: translateY(0); /* Navbar reappears */
+}
 /* Left Side - Logo */
 .nav-left {
   display: flex;
