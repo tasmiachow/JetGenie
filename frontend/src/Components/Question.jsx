@@ -1,0 +1,235 @@
+import React, { useState, useEffect } from "react";
+import Select from "react-select";
+import MultiSelectQuestion from "./MultiSelectQuestion";
+import { DateRange } from "react-date-range";
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
+
+import nycImage from "../assets/images/nyc.jpg";
+import parisImage from "../assets/images/paris.jpg";
+import tokyoImage from "../assets/images/tokyo.jpeg";
+import barcelonaImage from "../assets/images/barcelona.jpg";
+import dubaiImage from "../assets/images/dubai.jpg";
+import sydneyImage from "../assets/images/sydney.jpeg";
+import {library} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {fas} from '@fortawesome/free-solid-svg-icons';
+
+library.add(fas);
+
+const popularDestinations = [
+    { name: "New York City", country: "United States", image: nycImage },
+    { name: "Paris", country: "France", image: parisImage },
+    { name: "Tokyo", country: "Japan", image: tokyoImage },
+    { name: "Barcelona", country: "Spain", image: barcelonaImage },
+    { name: "Dubai", country: "UAE", image: dubaiImage },
+    { name: "Sydney", country: "Australia", image: sydneyImage }
+];
+
+const Question = ({ data, answer, onAnswer }) => {
+    const [input, setInput] = useState(answer || "");
+    const [options, setOptions] = useState([]);
+    const [selectedDestination, setSelectedDestination] = useState(null);
+    const [dateRange, setDateRange] = useState([
+        {
+            startDate: answer?.startDate || new Date(),
+            endDate: answer?.endDate || new Date(),
+            key: "selection",
+        },
+    ]);
+    const [noDates, setNoDates] = useState(false);
+
+    useEffect(() => {
+        setInput(answer || "");
+        if (answer && popularDestinations.some(dest => dest.name === answer)) {
+            setSelectedDestination(answer);
+        } else {
+            setSelectedDestination(null);
+        }
+    }, [data, answer]);
+
+    const fetchCities = async (searchText) => {
+        if (searchText.length < 2) return;
+        try {
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchText)}&addressdetails=1&limit=5`
+            );
+            const data = await response.json();
+            const cityOptions = data.map((place) => ({
+                label: place.display_name,
+                value: place.display_name,
+            }));
+            setOptions(cityOptions);
+        } catch (error) {
+            console.error("Error fetching cities:", error);
+        }
+    };
+
+    const handleInputChange = (newValue) => {
+        if (newValue) {
+            setSelectedDestination(null);
+            fetchCities(newValue);
+        }
+    };
+
+    const handleDestinationSelect = (destination) => {
+        if (!input) {
+            setSelectedDestination(destination);
+            onAnswer(destination);
+        }
+    };
+
+    const renderQuestionContent = () => {
+        switch (data.type) {
+            case "multi-select":
+                return (
+                    <div className="multi-select-container">
+                        {data.options.map((option, idx) => (
+                            <button
+                                key={option}
+                                className={`option-bubble ${(answer || []).includes(option) ? "selected" : ""}`}
+                                onClick={() => {
+                                    const newSelection = answer ? [...answer] : [];
+                                    const optionIndex = newSelection.indexOf(option);
+                                    if (optionIndex === -1) {
+                                        newSelection.push(option);
+                                    } else {
+                                        newSelection.splice(optionIndex, 1);
+                                    }
+                                    onAnswer(newSelection);
+                                }}
+                            >
+                                {data?.icons && data?.icons[idx] && 
+                                    <div className="icon"><FontAwesomeIcon size="4x" icon={data.icons[idx]}/></div>
+                                }
+                                {data?.images && data?.images[idx] && 
+                                    <div>
+                                        <img className="multi-select-image" src={new URL(`../assets/images/${data.images[idx]}`, import.meta.url).href} alt={option}/>
+                                    </div>
+                                }
+                                <div>{option}</div>
+                            </button>
+                        ))}
+                    </div>
+                );
+
+            case "single-select":
+                return (
+                    <div className="single-select-container">
+                        {data.options.map((option, idx) => (
+                            <button
+                                key={option}
+                                className={`option-bubble ${input === option ? "selected" : ""}`}
+                                onClick={() => {
+                                    setInput(option);
+                                    onAnswer(option);
+                                }}
+                            >
+                                {data?.icons && data?.icons[idx] && 
+                                    <div className="icon"><FontAwesomeIcon size="4x" icon={data.icons[idx]}/></div>
+                                }
+                                {option}
+                            </button>
+                        ))}
+                    </div>
+                );
+
+            case "date-range":
+                return (
+                    <div className="date-picker-container">
+                        <DateRange
+                            editableDateInputs={true}
+                            onChange={(ranges) => {
+                                setDateRange([ranges.selection]);
+                                onAnswer(ranges.selection);
+                            }}
+                            moveRangeOnFirstSelection={false}
+                            ranges={dateRange}
+                            minDate={new Date()}
+                            maxDate={new Date(new Date().setDate(new Date().getDate() + 365))}
+                            rangeColors={["#5C95FF"]}
+                            showDateDisplay={false}
+                        />
+                        <p
+                            className="no-dates-option"
+                            onClick={() => {
+                                setNoDates(!noDates);
+                                onAnswer(noDates ? dateRange[0] : "I don't know my dates yet");
+                            }}
+                        >
+                            I don't know my dates yet
+                        </p>
+                    </div>
+                );
+
+            case "usd-number":
+                return (
+                    <div className="usd-input">
+                        <span>$</span>
+                        <input
+                            type="number"
+                            min="1"
+                            step="1"
+                            value={input}
+                            onChange={(e) => {
+                                setInput(e.target.value);
+                                onAnswer(e.target.value);
+                            }}
+                            placeholder="Enter budget in USD"
+                        />
+                    </div>
+                );
+
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <div className="question-container">
+            <h2>{data.text}</h2>
+            {data.description && <p className="subtext">{data.description}</p>}
+            
+            {renderQuestionContent()}
+
+            {data.id === 1 && (
+                <div>
+                    <Select
+                        options={options}
+                        onInputChange={handleInputChange}
+                        onChange={(selectedOption) => {
+                            setInput(selectedOption.value);
+                            setSelectedDestination(null);
+                            onAnswer(selectedOption.value);
+                        }}
+                        placeholder="Enter a city or country"
+                        isSearchable
+                        value={input ? { label: input, value: input } : null}
+                    />
+
+                    <div className="popular-destinations">
+                        <h3>Or get started with a popular destination</h3>
+                        <div className="destination-grid">
+                            {popularDestinations.map((dest) => (
+                                <div
+                                    key={dest.name}
+                                    className={`destination-card ${selectedDestination === dest.name ? "selected" : ""}`}
+                                    onClick={() => handleDestinationSelect(dest.name)}
+                                    role="button"
+                                    tabIndex="0"
+                                    style={{ cursor: input ? "not-allowed" : "pointer", opacity: input ? 0.5 : 1 }}
+                                >
+                                    <img src={dest.image} alt={dest.name} className="clickable-image" />
+                                    <p><strong>{dest.name}</strong></p>
+                                    <p>{dest.country}</p>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Question;
