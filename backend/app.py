@@ -23,31 +23,40 @@ MAX_REFRESHES = 2  # Only 2 refreshes per time slot
 
 def generate_itinerary(user_data):
     """Generates a structured travel itinerary using Groq based on user inputs."""
-    
-    city = user_data.get("city", "Tokyo")
-    dates = user_data.get("dates", "March 15 - March 20")
-    group_type = user_data.get("group_type", "Solo Trip")
-    budget = user_data.get("budget", "Mid-range")
-    preferences = user_data.get("preferences", ["Food", "Culture", "Adventure"])
+    city = user_data.get("1", "New York City")
+    date_range = user_data.get("2", {})
+    start_date = date_range.get("startDate", "2025-02-15")
+    end_date = date_range.get("endDate", "2025-02-17")
+    group_type = user_data.get("3", "Solo Trip")
+    budget = user_data.get("4", "10000")
+    preferences = user_data.get("5", ["Sports Games", "Nightlife", "Must-see Attractions"])
 
-    # Prompt that FORCES Groq to return JSON
+    # Build a better structured prompt
     prompt = f"""
-    Create a detailed {group_type.lower()} travel itinerary for {city} from {dates}.
-    The traveler has a {budget.lower()} budget and is interested in: {', '.join(preferences)}.
+    You are a travel assistant. Create a **detailed** {group_type.lower()} travel itinerary for {city} from {start_date} to {end_date}.
+    The traveler has a budget of {budget} per person and is interested in: {', '.join(preferences)}.
 
-    **IMPORTANT**: Your response MUST be in **valid JSON format**.
-    The itinerary should be structured with **morning, afternoon, and night activities** for each day.
+    **Response Requirements:**
+    - **ONLY** return JSON. Do **not** add explanations, comments, or any extra text.
+    - Ensure the JSON **is fully complete** and properly formatted.
 
-    Return JSON ONLY, with NO explanations. Use this format:
+    **JSON Structure:**
     {{
         "Day 1": {{
-            "Morning": {{"Activity": "Example Morning Activity"}},
+            "Morning": {{"Activity": "Example Morning Activity", "Location": "Location Name", "Transportation": "Transport Info", "Food Recommendation": "Restaurant Name"}},
             "Afternoon": {{"Activity": "Example Afternoon Activity"}},
             "Night": {{"Activity": "Example Night Activity"}}
         }},
-        "Day 2": {{...}}
+        "Day 2": {{ ... }}
     }}
+
+    **Important Notes:**
+    - The response **must be valid JSON** with **all necessary closing brackets**.
+    - **If you do not follow these instructions, the response will be invalid.**
     """
+
+    print("\n📜 Prompt Sent to Groq:")
+    print(prompt)
 
     try:
         response = client.chat.completions.create(
@@ -57,17 +66,22 @@ def generate_itinerary(user_data):
 
         itinerary_text = response.choices[0].message.content.strip()
 
+        # Debugging: Print raw response from Groq
+        print("\n💡 Raw Itinerary Response from Groq:")
+        print(itinerary_text)
 
-        # Ensure valid JSON
-        try:
-            itinerary_json = json.loads(itinerary_text)
-        except json.JSONDecodeError:
-            itinerary_json = {"error": "Invalid response format from Groq. Try again!"}
+        # Validate JSON
+        itinerary_json = json.loads(itinerary_text)
+        return itinerary_json
+
+    except json.JSONDecodeError:
+        print("\n❌ ERROR: Groq returned an invalid JSON format.")
+        return {"error": "Groq returned an invalid response. Please try again."}
 
     except Exception as e:
-        itinerary_json = {"error": "Failed to generate itinerary"}
+        print("\n🔥 Error from Groq:", e)
+        return {"error": f"Failed to generate itinerary. Error: {str(e)}"}
 
-    return itinerary_json
 
 @app.route("/")
 def home():
@@ -77,14 +91,19 @@ def home():
 def get_itinerary():
     """Receives quiz answers from React and returns a travel itinerary."""
     user_data = request.json  # Receive JSON data from frontend
-    
-    # Debugging log to check received data
-    print("Received user data:", user_data)
 
+    # Debugging log: Check received data
+    print("\n📩 Received user data from React:")
+    print(json.dumps(user_data, indent=4))
+
+    # Generate itinerary using user data
     itinerary = generate_itinerary(user_data)
-    return jsonify({"itinerary": itinerary})
+    
+    # Debugging log: Check generated itinerary
+    print("\n🗺️ Generated Itinerary:")
+    print(json.dumps(itinerary, indent=4))
 
-@app.route("/refresh-activity", methods=["POST"])
+    return jsonify({"itinerary": itinerary})
 def refresh_activity():
     """Refreshes an activity for a specific day and time of day."""
     data = request.json

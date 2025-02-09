@@ -44,15 +44,15 @@ const Quiz = () => {
         if (currentQuestion < questions.length - 1) {
             setCurrentQuestion(currentQuestion + 1);
         } else {
-            console.log("✅ Final Answers Before Sending:", answers); // Debugging
+            console.log("✅ Final Answers Before Sending:", answers); // Log quiz data for debugging
     
             try {
                 const response = await fetch("http://127.0.0.1:5000/generate-itinerary", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(answers)
+                    body: JSON.stringify(answers),
                 });
     
                 if (!response.ok) {
@@ -60,16 +60,14 @@ const Quiz = () => {
                 }
     
                 const itineraryData = await response.json();
-                console.log("✅ Received Itinerary from Flask:", itineraryData); // Debugging
+                console.log("✅ Received Itinerary from Flask:", itineraryData); // Log backend response
     
-                // Navigate to ItineraryBuilder with the itinerary data
                 navigate("/itinerary-builder", { state: { itinerary: itineraryData.itinerary } });
-    
             } catch (error) {
                 console.error("❌ Error sending data to backend:", error);
             }
         }
-    };
+    };    
     const handleBack = () => {
         if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
     };
