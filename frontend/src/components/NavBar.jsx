@@ -54,6 +54,7 @@ const Navbar = () => {
           <>
             <Link to="/login" className="nav-button">Sign Up</Link>
             <Link to="/login" className="nav-button">Log In</Link>
+            <Link to="/hotels" className="nav-button">Find Hotel</Link>
           </>
         )}
       </div>

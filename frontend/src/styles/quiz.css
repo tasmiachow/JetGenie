@@ -67,11 +67,13 @@ body {
     transition: 0.3s ease-in-out;
     width: 180px;
     text-align: center;
+    color: black;
 }
 
 .answer-bubble:hover {
     border-color: #5C95FF;
     box-shadow: 0px 4px 10px rgba(92, 149, 255, 0.2);
+    color: white;
 }
 
 .answer-bubble.selected {

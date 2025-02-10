@@ -45,29 +45,29 @@ const Quiz = () => {
             setCurrentQuestion(currentQuestion + 1);
         } else {
             console.log("✅ Final Answers Before Sending:", answers); // Log quiz data for debugging
-    
+
             try {
-                const response = await fetch("http://127.0.0.1:5000/generate-itinerary", {
+                const response = await fetch("https://jet-genie--backend-flask-app.modal.run/generate-itinerary", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify(answers),
                 });
-    
+
                 if (!response.ok) {
                     throw new Error("Failed to send data to the backend");
                 }
-    
+
                 const itineraryData = await response.json();
                 console.log("✅ Received Itinerary from Flask:", itineraryData); // Log backend response
-    
+
                 navigate("/itinerary-builder", { state: { itinerary: itineraryData.itinerary } });
             } catch (error) {
                 console.error("❌ Error sending data to backend:", error);
             }
         }
-    };    
+    };
     const handleBack = () => {
         if (currentQuestion > 0) setCurrentQuestion(currentQuestion - 1);
     };
