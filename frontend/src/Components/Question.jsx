@@ -156,7 +156,7 @@ const Question = ({ data, answer, onAnswer }) => {
                             setSelectedDestination(null);
                             onAnswer(selectedOption.value);
                         }}
-                        placeholder="Enter a city or country"
+                        placeholder="Enter a city"
                         isSearchable
                         value={input ? { label: input, value: input } : null}
                     />
