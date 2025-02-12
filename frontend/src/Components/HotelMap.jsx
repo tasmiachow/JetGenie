@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import ListView from "./ListView";
-import "./HotelMap.css";
+import "../Styles/HotelMap.css";
 import Map from "./MapBox";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";

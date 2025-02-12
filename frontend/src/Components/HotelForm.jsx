@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./HotelForm.css";
+import "../styles/HotelForm.css";
 
 const HotelForm = () => {
   const [city, setCity] = useState("");
@@ -29,18 +29,18 @@ const HotelForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!city) return;
-    
+
     // const cityCode = await fetchCityCode();
     // if (!cityCode) return;
 
     let params = {
-        city: city,
-        radius,
-        unit,
+      city: city,
+      radius,
+      unit,
     }
 
-    if (ratings.length !== 5){
-        params.ratings = ratings.join(",");
+    if (ratings.length !== 5) {
+      params.ratings = ratings.join(",");
     }
     const queryParams = new URLSearchParams(params).toString();
 
