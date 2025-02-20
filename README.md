@@ -26,7 +26,7 @@ AI Travel Agent
 
 4. Run  
 ```sh
-    npm install --legacy-peer-deps
+    npm run dev
 ```
 
 [color pallete](https://coolors.co/palette/383d3b-f5cb5c-ffa9a3-b9e6ff-5c95ff)
