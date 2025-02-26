@@ -1,8 +1,17 @@
 # JetGenie
 AI Travel Agent 
 
-
-### How to Run The Project (FRONTEND):
+# Table of Contents
+- [Mission](#JetGenie)
+  - [Run The Frontend](###run-the-frontend)
+  - [Setting up the Backend](#setting-up-the-backend)
+<!--
+  - [Create Virtual Environment](#create-virtual-environment)
+  - [Install Requirements](#install-requirements)
+  - [Run Server](#run-server)
+  - [Deactivate Environment](#deactivate-environment)
+-->
+### Run The Frontend:
 1. Navigate to the project directory:
 ```sh
     cd frontend
