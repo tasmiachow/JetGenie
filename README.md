@@ -2,7 +2,7 @@
 AI Travel Agent 
 
 # Inspiration
-Afsana and I have been friends since high school and have always dreamed of traveling the world together! We're heading to Chicago in April, and as one does when traveling, we must see everything the city has to offer. We met Eric at a hackathon, and he is also eager to jet-set the world on his own! Instead of struggling to find places, food, and shows, we created JetGenie to take care of our travel itinerary for you.
+Afsana and Tasmia have been friends since high school and have always dreamed of traveling the world together! We're heading to Chicago in April, and as one does when traveling, we must see everything the city has to offer. We met Eric at a hackathon, and he is also eager to jet-set the world on his own! Instead of struggling to find places, food, and shows, we created JetGenie to take care of our travel itinerary for you.
 
 # What it does
 JetGenie plans out a trip from start to finish based on your budget, and trip vibes (solo, friends, family), and asks you to weigh out what activities are most important to you based on that short quiz it will plan out each day of your trip, and recommend morning, afternoon, and night activities that you can directly add to your google calendar! We also have a page where you can find hotels and accommodations nearby.
