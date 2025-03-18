@@ -34,8 +34,9 @@ JetGenie plans out a trip from start to finish based on your budget and trip vib
 -->
 ## Demo: 
 <div align="center">
- https://github.com/user-attachments/assets/6ce2403e-7e77-40b9-b9b7-e56f3c9df40d
+  <video src="https://github.com/user-attachments/assets/6ce2403e-7e77-40b9-b9b7-e56f3c9df40d" controls width="600"></video>
 </div>
+
 
 ### Run The Frontend:
 1. Navigate to the project directory:
