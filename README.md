@@ -25,7 +25,7 @@ JetGenie plans out a trip from start to finish based on your budget and trip vib
 - [Mission](#JetGenie)
   - [Run The Frontend](###run-the-frontend)
   - [Setting up the Backend](#setting-up-the-backend)
- - [Demo](##Demo 🎥)
+ - [Demo](##Demo)
 <!--
   - [Create Virtual Environment](#create-virtual-environment)
   - [Install Requirements](#install-requirements)
