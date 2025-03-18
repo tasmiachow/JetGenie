@@ -25,16 +25,16 @@ JetGenie plans out a trip from start to finish based on your budget and trip vib
 - [Mission](#JetGenie)
   - [Run The Frontend](###run-the-frontend)
   - [Setting up the Backend](#setting-up-the-backend)
- - [Demo](##Demo)
+ - [Demo](##Demo 🎥)
 <!--
   - [Create Virtual Environment](#create-virtual-environment)
   - [Install Requirements](#install-requirements)
   - [Run Server](#run-server)
   - [Deactivate Environment](#deactivate-environment)
 -->
-## Demo: 
+## Demo 🎥:  
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/6ce2403e-7e77-40b9-b9b7-e56f3c9df40d" controls width="600"></video>
+  <video src="https://github.com/user-attachments/assets/6ce2403e-7e77-40b9-b9b7-e56f3c9df40d" controls width="500" height="auto"></video>
 </div>
 
 
