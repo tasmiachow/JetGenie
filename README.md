@@ -25,12 +25,16 @@ JetGenie plans out a trip from start to finish based on your budget and trip vib
 - [Mission](#JetGenie)
   - [Run The Frontend](###run-the-frontend)
   - [Setting up the Backend](#setting-up-the-backend)
+  -[Demo](##Demo)
 <!--
   - [Create Virtual Environment](#create-virtual-environment)
   - [Install Requirements](#install-requirements)
   - [Run Server](#run-server)
   - [Deactivate Environment](#deactivate-environment)
 -->
+## Demo: 
+[![Watch the video](https://img.youtube.com/vi/cYx1-vsW8pw/0.jpg)](https://youtu.be/cYx1-vsW8pw)
+
 ### Run The Frontend:
 1. Navigate to the project directory:
 ```sh
