@@ -1,6 +1,7 @@
 # JetGenie
 
 JetGenie is a smart travel planning web application designed to help you plan your trips from start to finish with ease.
+
 View DevPost: https://devpost.com/software/jetgenie 
 
 ---
